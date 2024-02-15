@@ -53,7 +53,8 @@ beta_d = [16.75, 40.78];
 beta_m = [26.11, 18.85];
 beta_p = [69.21, 63.2];
 
-combination = length(beta_d)*length(beta_m)*length(beta_p);
+mu_cases = [];
+
 mu_times = cell(1,combination);
 mu_snapshots = cell(1,combination);
 mu_status = cell(1,combination);
@@ -78,23 +79,26 @@ for b1 = 1:length(beta_d)
             mu_times{1,c} = snap_mu(:,5)';
             mu_snapshots{1,c} = snap_mu(:,6:end)';
             mu_status{1,c} = stat_mu(:,5:end)';
+
+            mu_cases = [mu_cases; beta_d(b1), beta_m(b2), beta_p(b3)];
             c = c+1;
         end
     end
 end
 
-clearvars -except coordinates nodes mu_times mu_snapshots mu_status combination
+clearvars -except coordinates nodes mu_times mu_snapshots mu_status mu_cases
 
 %% Make still-image plots of data
 close all;
 
+combination = length(mu_cases);
 num_pressures_to_plot = 1;
 factor = 1; %set scale factor
 
 fig=1;
 for i = 1:combination
     pressures_index = zeros(1,num_pressures_to_plot);
-    intervals = linspace(0,1,num_pressures_to_plot);
+    intervals = [1];%linspace(0,1,num_pressures_to_plot);
     for t = 1:length(intervals)
         [~, pressures_index(t)] = min(abs(mu_times{i}-intervals(t)));
     end
@@ -120,7 +124,9 @@ for i = 1:combination
         axis equal
         hold on
         quiver3(zeros(3,1),zeros(3,1),zeros(3,1),[1;0;0],[0;1;0],[0;0;1])
-        %title(sublabels(i))
+        %title('$t='+string(mu_times{i}(pressures_index(p)))+'$',interpreter="latex")
+        title("$\mu_{"+string(i)+"} = \{"+string(mu_cases(i,1))+...
+                ", "+string(mu_cases(i,2))+", "+string(mu_cases(i,3))+"\}$", interpreter="latex")
         xlabel('x (mm)')
         ylabel('y (mm)')
         zlabel('z (mm)')
