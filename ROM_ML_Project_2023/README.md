@@ -8,4 +8,4 @@ This includes:
 - A 10-Fold Cross-Validation function that generates all 10 folds, and calculates training time
 - An external analysis that generates prediction time and error calculations
 
-This work is property of the Soft Tissue Research: Experiments, Theory and Research by Hokies (STRETCH) Lab and may be used with the express consent of the Lab professor.
+This work is property of the Soft Tissue Research: Experiments, Theory and Research by Hokies (STRETCH) Lab and may be used with the express consent of the Lab's principal investigator.
